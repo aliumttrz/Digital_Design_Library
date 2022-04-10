@@ -1,0 +1,15 @@
+`timescale 1ns / 1ps
+module lab2_testbench();
+reg i_CLK=0;
+always #5 i_CLK= ~i_CLK;
+wire [15:0] LED;
+
+Lab2_Counter UUT (.i_CLK(i_CLK),.LED(LED));
+
+initial
+begin
+#1000000
+$finish;
+end
+
+endmodule
