@@ -1,0 +1,38 @@
+module Lab2_Counter(
+    input i_CLK,
+    output [15:0] LED);
+reg [22:0] r_Clk_Count  = 0;
+reg r_Clk_10Hz          = 0;
+reg [4:0] r_LED_Counter = 0;
+reg [15:0] r_LED        = 1;
+
+assign LED = r_LED;
+    always @(posedge i_CLK)
+    begin
+    // 1048576
+        if (r_Clk_Count < 10 - 1)
+        begin
+            r_Clk_Count <= r_Clk_Count + 1;
+        end
+        else
+        begin
+            r_Clk_Count <= 0;
+            r_Clk_10Hz  <= ~r_Clk_10Hz;
+        end
+    end
+    // LED DRIVE
+    always @(posedge r_Clk_10Hz)
+    begin
+        if (r_LED_Counter < 16)
+        begin
+            r_LED_Counter           <= r_LED_Counter + 1;
+            r_LED[15:1]             <= r_LED[14:0];    
+            r_LED[r_LED_Counter]    <= 0;
+        end
+        else
+        begin
+            r_LED_Counter   <= 0;
+            r_LED           <= 1;
+        end
+    end
+endmodule
